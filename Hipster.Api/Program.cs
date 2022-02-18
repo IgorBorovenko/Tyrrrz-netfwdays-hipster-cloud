@@ -11,7 +11,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Database"));
 });
 builder.Services.AddCors();
-
+builder.WebHost.UseHeroku();
+ 
 var app = builder.Build();
 app.UseRouting();
 app.UseCors(x => 
@@ -22,7 +23,6 @@ app.UseCors(x =>
 });
 app.UseOpenApi();
 app.UseSwaggerUi3();
-
 app.MapControllers();
 
 app.Run();
