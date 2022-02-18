@@ -22,20 +22,27 @@ internal static class HerokuIntegration
         return builder.ConnectionString;
     }
 
-    public static IWebHostBuilder UseHeroku(this IWebHostBuilder webHost)
+    public static IWebHostBuilder UseHerokuPort(this IWebHostBuilder builder)
     {
         // Port settings
         var port = Environment.GetEnvironmentVariable("PORT");
         if (!string.IsNullOrWhiteSpace(port))
-        {
-            webHost.UseUrls("http://*:" + port);
-        }
+            builder.UseUrls("http://*:" + port);
 
+        return builder;
+    }
+
+    public static IConfigurationBuilder UseHerokuPostgres(this IConfigurationBuilder builder)
+    {
         // Database settings
+        //var databaseUrl = "postgres://utpeyrcqogggsr:bb9c21e7c9562ce6fbf0a687243f0561dc16693452a8fe38d7b48e6347cc7123@ec2-52-209-111-18.eu-west-1.compute.amazonaws.com:5432/d37rjdsl2pn6en";
         var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
         if (!string.IsNullOrWhiteSpace(databaseUrl))
+        {
             Environment.SetEnvironmentVariable("ConnectionStrings__Database", ConnectionStringFromUrl(databaseUrl));
-
-        return webHost;
+            builder.AddEnvironmentVariables();
+        }
+        
+        return builder;
     }
 }

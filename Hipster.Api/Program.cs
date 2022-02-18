@@ -3,16 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddOpenApiDocument(options => {
-    options.Title = "Hipster.Api";
-});
-builder.Services.AddDbContext<DatabaseContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Database"));
-});
+builder.Services.AddOpenApiDocument(options => options.Title = "Hipster.Api");
+builder.Services.AddDbContext<DatabaseContext>(options => 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
 builder.Services.AddCors();
-builder.WebHost.UseHeroku();
- 
+builder.WebHost.UseHerokuPort();
+builder.Configuration.UseHerokuPostgres();
+
 var app = builder.Build();
 app.UseRouting();
 app.UseCors(x => 
