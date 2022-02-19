@@ -28,11 +28,24 @@ internal static class HerokuIntegration
         var port = Environment.GetEnvironmentVariable("PORT");
         if (!string.IsNullOrWhiteSpace(port))
         {
-            Console.WriteLine($".NET 6 + Heroku's port found: {port} !");
+            Console.WriteLine($".NET 6 + IWebHostBuilder + Heroku's port found: {port} !");
             builder.UseUrls("http://*:" + port);
         }
 
         return builder;
+    }
+
+    public static WebApplication UseHerokuPort(this WebApplication app)
+    {
+        // Port settings
+        var port = Environment.GetEnvironmentVariable("PORT");
+        if (!string.IsNullOrWhiteSpace(port))
+        {
+            Console.WriteLine($".NET 6 + WebApplication + Heroku's port found: {port} !");
+            app.Urls.Add("http://*:" + port);
+        }
+
+        return app;
     }
 
     public static IConfigurationBuilder UseHerokuPostgres(this IConfigurationBuilder builder)

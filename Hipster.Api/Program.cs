@@ -11,6 +11,7 @@ builder.WebHost.UseHerokuPort();
 builder.Configuration.UseHerokuPostgres();
 
 var app = builder.Build();
+app.UseHerokuPort();
 app.UseRouting();
 app.UseCors(x => 
 {
