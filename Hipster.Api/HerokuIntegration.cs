@@ -27,7 +27,10 @@ internal static class HerokuIntegration
         // Port settings
         var port = Environment.GetEnvironmentVariable("PORT");
         if (!string.IsNullOrWhiteSpace(port))
+        {
+            Console.WriteLine($".NET 6 + Heroku's port found: {port} !");
             builder.UseUrls("http://*:" + port);
+        }
 
         return builder;
     }
