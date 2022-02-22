@@ -18,8 +18,6 @@ public class BooksController: ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Book>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Get()
     {
-        throw new Exception("ooops");
-
         var books = await db.Books.ToArrayAsync();
         return Ok(books);
     }
